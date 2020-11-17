@@ -1,12 +1,19 @@
 $(document).ready(function () {
 
-    getMenu();
+  //By default, todays date
+  getMenu('api/menu');
 
-    //representAsTable();
+  //used to show single menu item
+   $('body').off('click').on('click','img',function(){
+      getMenuOnImg(this);
+   });
 
-    async function getMenu() {
 
-        urlwithDate = "api/menu/2020-11-4";
+$('#xBtn').click(function () {
+  $('.menuItem').css({'display':'none'});
+});
+
+    async function getMenu(urlwithDate) {
 
         let response = await fetch(urlwithDate, {
             method: 'GET',
@@ -21,48 +28,47 @@ $(document).ready(function () {
                 if (data.length <= 0) {
                     $('.content').html('<p>No records is available for today</p>');
                 } else {
-                    //representAsTable(data)
                     var chunked = data[0];
                     var menuFor = chunked.menuFor;
+                    let mealsByTime = chunked.mealsByTime;
+                    $('.content').prepend('<h3>'+(new Date(menuFor).toDateString())+'</h3>');
+                    //console.log(mealsByTime);
+                      let tableWithDt = '';
 
-                    representAsTable();
+                    for(let i=0; i<mealsByTime.length; i++){//diving by day time
+                        let dt = mealsByTime[i].dayTime;
+                        let meals = mealsByTime[i].mealOnMenu;
 
-                    $('#menudate').append(new Date(menuFor).toDateString());
+                        let mealRow = '';
 
-                    console.log("Menu For : "+menuFor+"\n");
+                              for(let j=0; j<meals.length; j++){
+                                mealRow += '<tr>';
+                                  for(ind in meals[j]){//reading meal details
+                                    if(ind === 'id' | ind === 'mealId' | ind === 'mealMealCategoryId'){
+                                      mealRow = mealRow + '<td id='+ind+' hidden>'+meals[j][ind]+'</td>';
+                                    } else {
+                                          if(ind ==='mealPicture'){
+                                              mealRow = mealRow + '<td id='+ind+'><img class="pict" src='+meals[j][ind]+' alt="'+meals[j]['id']+'"></td>';
+                                          }else{
+                                              mealRow = mealRow + '<td id='+ind+'>'+meals[j][ind]+'</td>';
+                                          }
+                                    }
 
-                    let mealsbyTime = chunked.mealsByTime;
-
-                    for(let i=0; i<mealsbyTime.length; i++){
-
-                      console.log("Length of meals on menu = "+mealsbyTime[i].mealOnMenu.length);
-                      for(let j=0; j<mealsbyTime[i].mealOnMenu.length; j++){
-                        let row = '<tr>';
-
-                          for(ind in mealsbyTime[i].mealOnMenu[j]){
-                              let mealDetail = mealsbyTime[i].mealOnMenu[j][ind];
-                              console.log(ind+":"+mealDetail);
-
-
-                              if(ind === "id" | ind === "mealId" | ind ==="mealMealCategoryId"){
-                                row = row + '<td id='+ind+' hidden>'+mealDetail+'</td>';
-                              } else{
-                                  if(ind =="mealPicture"){
-                                      row = row + '<td id='+ind+'><img class="pict" src='+mealDetail+' alt="meal picture"></td>';
-                                  } else{
-                                      row = row + '<td id='+ind+'>'+mealDetail+'</td>';
                                   }
+                                  mealRow = mealRow + '</tr>';
                               }
 
-                          }
-                          row = row + '</tr>';
-                          $('tbody').append(row);
-                      }
-                    }
+                          tableWithDt = tableWithDt+'<tr>'
+                                        +whichDayTime(dt)+
+                                            +'</tr>' + mealRow;
 
+                    }
+                    $('table.menu').append(tableWithDt);
+                    $('table.menu').append('</table>');
                 }
 
             });
+
         } else {
             if (response.status == 401) {
                 alert('You should authorize first!');
@@ -75,57 +81,67 @@ $(document).ready(function () {
     }
 
 
-function representAsTable(){
-  $('.content').append(
-
-    '<table>'+
-    '<tr>'
-   	  +'<th>Menu For</th>'
-        +'<th colspan="5" id="menudate"></th>'
-    +'</tr>'
-  );
-
-  $('table').append(
-    '<tr><!--o-->'
-    	+'<tr id="daytime">'
-
-        +'</tr>'
-        +'<tr>'
-            	+'<tr>'
-                	+'<th hidden>Menu ID</th>'
-                	+'<th hidden>Meal ID</th>'
-                  +'<th>Meal Name</th>'
-                  +'<th>Picture</th>'
-                  +'<th>Amount</th>'
-                  +'<th>Price</th>'
-                  +'<th hidden>Meal Category ID</th>'
-                  +'<th>Meal Category</th>'
-                  +'<th>In Stock</th>'
-              +'</tr>'
-
-  );
+function whichDayTime(dayTimeNum){
+  switch (dayTimeNum) {
+    case "1":
+        return '<th colspan="6">Breakfast</th>';
+      break;
+    case "2":
+        return '<th colspan="6">Lunch</th>';
+        break;
+    case "3":
+        return '<th colspan="6">Dinner</th>';
+        break;
+    default:
+      return '<th colspan="6">lunch</th>';
+      break;
+  }
 }
 
 
+async function getMenuOnImg(img){
+    let id = img.alt;
+    url = 'api/menu/'+id;
+
+
+    let response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        }
     });
 
+    if (response.ok) {
 
-/*
-switch (mealsbyTime[i].dayTime) {
-  case "1":
-      console.log('Breakfast');
-      $('#daytime').append('<th colspan="6">Breakfast</th>');
-    break;
-  case "2":
-      console.log('Lunch');
-      $('#daytime').append('<th colspan="6">Lunch</th>');
-    break;
-  case "3":
-      console.log('dinner');
-      $('#daytime').append('<th colspan="6">Dinner</th>');
-    break;
-  default:
-      console.log('lunch');
-      $('#daytime').append('<th colspan="6">Lunch</th>');
-}
-*/
+          response.json().then(function (data) {
+              $('#itemImg').attr('src', data.mealPicture);
+              $('#itemId').text(data.id);
+              $('#itemMealId').text(data.mealId);
+              $('#itemName').text(data.mealName);
+              $('#itemMAmount').text(data.mealAmount);
+              $('#itemMPrice').text(data.mealPrice);
+              $('#itemMCatId').text(data.mealMealCategoryId);
+              $('#itemMCat').text(data.mealMealCategoryCategory);
+              $('#itemStock').text(data.inStock);
+              $('.menuItem').css({'display':'block'});
+          });
+
+    }else{
+      switch (response.status) {
+        case 401:
+          alert('You should authorize first!');
+          location = '/auth.html';
+          break;
+        case 404:
+          alert('Menu with such ID is not found!');
+          break;
+        default:
+          alert('Some unwanted issues appeared');
+          break;
+                              }
+          }
+
+  }
+
+});

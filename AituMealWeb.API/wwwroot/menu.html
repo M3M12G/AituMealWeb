@@ -26,11 +26,60 @@
               <button class="lgout" id="logout">logout</button>
             </div>
         </div>
-        <div class="left-bar">
-            <h1>Menu:</h1>
-        
-        </div>
         <div class="content">
+
+          <div class="menuItem" style="display:none;">
+                <table>
+                    <tr>
+                      <th>Meal Name:</th>
+                        <td colspan="4"><p hidden id="itemId"></p>
+                          <p hidden id="itemMealId"></p>
+                          <p id="itemName"></p>
+                        </td>
+                    </tr>
+                    <tr>
+                      <th rowspan="2"><img src="" id="itemImg" alt="meal picture"></th>
+                      <td>
+                        <p>Amount:</p>
+                        <p id="itemMAmount"></p>
+                      </td>
+                      <td>
+                        <p>Price:</p>
+                        <p id="itemMPrice"></p>
+                      </td>
+                      <td>
+                        <p hidden id="itemMCatId"></p>
+                        <p>Category:</p>
+                        <p id="itemMCat"></p>
+                      </td>
+                      <td>
+                        <p>InStock:</p>
+                        <p id="itemStock"></p>
+                      </td>
+                      </td>
+                    </tr>
+                </table>
+                <button type="button" id="xBtn">x</button>
+            </div>
+
+          <table class="menu">
+            <tr>
+                <th colspan="6">Day Time</th>
+            </tr>
+
+            <tr>
+              <th hidden>Id</th>
+              <th hidden>Meal Id</th>
+              <th>Meal Name</th>
+              <th>Picture</th>
+              <th>Amount</th>
+              <th>Price</th>
+              <th hidden>Meal Category ID</th>
+              <th>Meal Category</th>
+              <th>InStock</th>
+            </tr>
+          </table>
+
         </div>
         <div class="footer">AITU Meal (c) 2020</div>
     </div>
@@ -38,3 +87,7 @@
     <script type="text/javascript" src="js/menu.js"></script>
 </body>
 </html>
+
+<!--
+
+-->

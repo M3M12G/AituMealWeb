@@ -6,6 +6,32 @@ div.left-bar{
   border: 2px solid black;
 }
 
+table.menu{
+  position: relative;
+  top: 5%;
+  left: 15%;;
+}
+
+div.menuItem{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 2px solid black;
+  background: rgba(0, 0, 0, 0.3);
+  height: auto;
+  width: auto;
+  font-size: 1.0em;
+}
+
+img#itemImg{
+  height: 65px;
+  width: 65px;
+}
+
+div.menuItem>table>tr>td{
+  color: red;
+}
+
 img.pict{
   height: 100px;
   width: 150px;

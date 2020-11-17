@@ -43,7 +43,7 @@ namespace AituMealWeb.Infrastructure.Repositories
 
         public async Task<Menu> GetMenuById(Guid id)//Get the record of exact menu
         {
-            return await _dbContext.Menu.Include(mu => mu.Meal).AsNoTracking().FirstOrDefaultAsync(mu => mu.Id == id);
+            return await _dbContext.Menu.Include(mu => mu.Meal).ThenInclude(m => m.MealCategory).AsNoTracking().FirstOrDefaultAsync(mu => mu.Id == id);
         }
 
         public async Task<bool> isMealAvailable(Guid mealId)
