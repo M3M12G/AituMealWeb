@@ -1,0 +1,73 @@
+﻿#left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    min-height: 100%;
+    background-image: url('../images/fon_reg.jpeg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
+    text-align: center;
+}
+
+#right {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    font-size: 1.0em;
+}
+
+    #right > div.registerBox {
+        position: relative;
+        top: 18vh;
+        left: 14vh;
+        height: 100%;
+        width: 60%;
+        font-size: 1.1em;
+        display: flex;
+        padding: 5vh;
+        border: 2px outset #dce1de;
+        flex-direction: column;
+    }
+
+    #right > div.loginBox {
+        position: relative;
+        top: 30vh;
+        left: 14vh;
+        height: 30%;
+        width: 60%;
+        font-size: 1.1em;
+        display: flex;
+        padding: 5vh;
+        border: 2px outset #dce1de;
+        flex-direction: column;
+    }
+
+form > input {
+    height: 5vh;
+    width: 100%;
+    font-size: 0.75em;
+    margin-bottom: 2vh;
+    border-radius: 1.5vh;
+    font-family: 'Reenie Beanie';
+}
+
+form > label {
+    font-size: 1.15em;
+    color: #7363D6;
+}
+
+#text {
+    position: relative;
+    top: 18vh;
+    left: 12vh;
+    font-size: 2.5em;
+    color: white;
+    padding: 5vh;
+    height: 55vh;
+    width: 65%;
+    border: 2px solid #dce1de;
+    background: rgba(0,0,0,0.5);
+}

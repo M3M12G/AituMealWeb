@@ -1,0 +1,18 @@
+div.left-bar{
+  position: relative;
+  left: 5vh;
+  height: 70%;
+  width: 25vh;
+  border: 2px solid black;
+}
+
+img.pict{
+  height: 100px;
+  width: 150px;
+}
+
+div.footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
